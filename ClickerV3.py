@@ -1,25 +1,20 @@
 import tkinter
+from tkinter.constants import TRUE
 
 
 Number = 0
 OrginColor = 'gray'
-TimesClickedUp = 0
-TimesClickedDown = 0
+ClickedUp = False
+ClickedDown = False
 
 def Add():
     global OrginColor
     global Number
-    global TimesClickedUp
-    global TimesClickedDown
-
-    TimesClickedUp += 1
-    TimesClickedDown = 0
-    if TimesClickedUp == 2:
-        Number = Number * 3
-        TimesClickedUp = 0
-    else:
-        Number += 1
-
+    global ClickedUp 
+    global ClickedDown
+    ClickedUp = True
+    ClickedDown = False
+    Number +=1 
     numberLabel['text'] = Number
     if Number > 0:
         root['background'] = 'green'
@@ -34,17 +29,12 @@ def Add():
 def Sub():
     global OrginColor
     global Number
-    global TimesClickedUp
-    global TimesClickedDown
-    
-    TimesClickedUp = 0 
-    TimesClickedDown += 1
+    global ClickedDown
+    global ClickedUp
+    ClickedUp = False
+    ClickedDown = True
 
-    if TimesClickedDown == 2:
-        Number = int(Number/3)
-        TimesClickedDown = 0
-    else:
-        Number = Number - 1
+    Number -= 1
     numberLabel['text'] = Number
     if Number > 0:
         root['background'] = 'green'
@@ -56,6 +46,16 @@ def Sub():
         root['background'] = 'gray'
         OrginColor = 'gray'
 
+def LabelClick(event):
+    global ClickedDown
+    global ClickedUp
+    global Number
+
+    if ClickedUp:
+        Number = Number * 3
+    else:
+        Number = round((Number/3),2)
+    numberLabel['text'] = Number
 
 def ColorChange(event):
     global OrginColor
@@ -80,5 +80,10 @@ numberLabel.pack(ipadx=20,ipady=20)
 
 root.bind("<Enter>",ColorChange)
 root.bind("<Leave>",ColorChange1)
+root.bind("+",Add)
+root.bind("-",Sub)
+root.bind("<Up>",Add)
+root.bind("<Down>",Sub)
+numberLabel.bind("<Double-Button-1>",LabelClick)
 
 root.mainloop()

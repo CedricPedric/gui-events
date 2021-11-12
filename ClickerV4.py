@@ -57,6 +57,46 @@ def LabelClick(event):
         Number = round((Number/3),2)
     numberLabel['text'] = Number
 
+def KeyAdd(event):
+    global OrginColor
+    global Number
+    global ClickedUp 
+    global ClickedDown
+    ClickedUp = True
+    ClickedDown = False
+    Number +=1 
+    numberLabel['text'] = Number
+    if Number > 0:
+        root['background'] = 'green'
+        OrginColor = 'green'
+    elif Number < 0:
+        root['background'] = 'red'
+        OrginColor = 'red'
+    else:
+        root['background'] = 'gray'
+        OrginColor = 'gray'
+
+def KeySub(event):
+    global OrginColor
+    global Number
+    global ClickedDown
+    global ClickedUp
+    ClickedUp = False
+    ClickedDown = True
+
+    Number -= 1
+    numberLabel['text'] = Number
+    if Number > 0:
+        root['background'] = 'green'
+        OrginColor = 'green'
+    elif Number < 0:
+        root['background'] = 'red'
+        OrginColor = 'red'
+    else:
+        root['background'] = 'gray'
+        OrginColor = 'gray'
+
+
 def ColorChange(event):
     global OrginColor
     root["background"] = 'yellow'
@@ -80,6 +120,11 @@ numberLabel.pack(ipadx=20,ipady=20)
 
 root.bind("<Enter>",ColorChange)
 root.bind("<Leave>",ColorChange1)
+root.bind("+",KeyAdd)
+root.bind("-",KeySub)
+root.bind("<Up>",KeyAdd)
+root.bind("<Down>",KeySub)
+root.bind("<space>",LabelClick)
 numberLabel.bind("<Double-Button-1>",LabelClick)
 
 root.mainloop()
